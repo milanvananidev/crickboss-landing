@@ -329,9 +329,8 @@ export function ComingSoonPage() {
             </div>
           </div>
 
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
+          <div ref={logoStageRef} className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
             <Image
-              ref={logoStageRef}
               src={logoVertical}
               alt="CrickBoss logo"
               className="h-auto w-[220px] sm:w-[280px] lg:w-[330px]"
