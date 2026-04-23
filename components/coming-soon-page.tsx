@@ -628,7 +628,7 @@ export function ComingSoonPage() {
         </div>
 
         {/* Footer row — blended inside the India section */}
-        <div className="relative border-t border-slate-200/60 py-6">
+        {/* <div className="relative border-t border-slate-200/60 py-6">
           <div className="mx-auto flex max-w-7xl flex-col items-center gap-3 sm:flex-row sm:justify-between">
             <div className="flex items-center gap-3">
               <Image src={logoIcon} alt="CrickBoss icon" className="h-7 w-7 opacity-70" />
@@ -642,7 +642,7 @@ export function ComingSoonPage() {
               <a className="transition hover:text-brand" href="mailto:hello@crickboss.in">hello@crickboss.in</a>
             </div>
           </div>
-        </div>
+        </div> */}
       </section>
     </main>
   );
