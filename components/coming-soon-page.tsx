@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -42,16 +42,11 @@ const workflowSteps = [
   },
   {
     index: "03",
-    title: "Add player",
-    description: "Build the XI so every action maps back to a real player profile."
-  },
-  {
-    index: "04",
     title: "Start scoring",
     description: "Track every ball, run, wicket, and extra from one fast screen."
   },
   {
-    index: "05",
+    index: "04",
     title: "Publish live",
     description: "Generate the scoreboard, live ticker, and updated player records automatically."
   }
@@ -123,7 +118,21 @@ function EarlyAccessModal({
 
         <form
           className="mt-6 flex flex-col gap-3"
-          onSubmit={e => { e.preventDefault(); onClose(); }}
+          onSubmit={async e => {
+            e.preventDefault();
+            const phoneEl = e.currentTarget.elements.namedItem("whatsapp-modal") as HTMLInputElement;
+            if (!phoneEl?.value) return;
+            try {
+              await fetch("/api/early-access", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone: country.dial + " " + phoneEl.value })
+              });
+              onClose();
+            } catch (err) {
+              console.error("Failed to save:", err);
+            }
+          }}
         >
           <div className="flex gap-2">
             {/* Country selector */}
@@ -185,6 +194,7 @@ function AmbientBackground() {
 }
 
 export function ComingSoonPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [heroCountry, setHeroCountry] = useState(COUNTRIES[0]);
   const [ctaCountry, setCtaCountry] = useState(COUNTRIES[0]);
   const [modalCountry, setModalCountry] = useState(COUNTRIES[0]);
@@ -195,6 +205,24 @@ export function ComingSoonPage() {
   const heroStageRef = useRef<HTMLDivElement | null>(null);
   const workflowStageRef = useRef<HTMLDivElement | null>(null);
   const scrollHintRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    // Hide loader after a short aesthetic delay
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    // Cleanup on unmount or state change
+    return () => { document.body.style.overflow = ""; };
+  }, [isLoading]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -223,7 +251,7 @@ export function ComingSoonPage() {
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: "+=5600",
+          end: "+=4800",
           scrub: 1.1,
           pin: true,
           anticipatePin: 1
@@ -254,11 +282,6 @@ export function ComingSoonPage() {
         .to(".workflow-step-label-3", { autoAlpha: 0.35, duration: 0.18 }, "<")
         .to(".workflow-step-4", { autoAlpha: 1, y: 0, duration: 0.32 }, "<")
         .to(".workflow-step-label-4", { autoAlpha: 1, duration: 0.18 }, "<")
-        .to({}, { duration: 0.58 })
-        .to(".workflow-step-4", { autoAlpha: 0, y: -20, duration: 0.28 })
-        .to(".workflow-step-label-4", { autoAlpha: 0.35, duration: 0.18 }, "<")
-        .to(".workflow-step-5", { autoAlpha: 1, y: 0, duration: 0.32 }, "<")
-        .to(".workflow-step-label-5", { autoAlpha: 1, duration: 0.18 }, "<")
         .to({}, { duration: 1.1 });
     }, section);
 
@@ -266,7 +289,27 @@ export function ComingSoonPage() {
   }, []);
 
   return (
-    <main className="bg-[#f8fafc] text-slate-950">
+    <main className="bg-[#f8fafc] text-slate-950 overflow-x-clip">
+
+      {/* Loading Overlay */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center bg-[#f8fafc]"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <Image src={logoIcon} priority alt="CrickBoss loading..." className="h-20 w-20 animate-pulse" />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {isModalOpen && <EarlyAccessModal onClose={() => setIsModalOpen(false)} />}
       <section ref={sectionRef} className="relative min-h-screen">
@@ -286,8 +329,9 @@ export function ComingSoonPage() {
             </div>
           </div>
 
-          <div ref={logoStageRef} className="absolute inset-0 z-10 flex items-center justify-center px-6">
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-6">
             <Image
+              ref={logoStageRef}
               src={logoVertical}
               alt="CrickBoss logo"
               className="h-auto w-[220px] sm:w-[280px] lg:w-[330px]"
@@ -305,10 +349,10 @@ export function ComingSoonPage() {
             </div>
           </div>
 
-          <div className="absolute inset-0 z-10 flex items-center justify-center px-5 sm:px-6 lg:px-8">
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-5 sm:px-6 lg:px-8">
             <div
               ref={heroStageRef}
-              className="mx-auto flex w-full max-w-4xl flex-col items-center text-center"
+              className="pointer-events-auto mx-auto flex w-full max-w-4xl flex-col items-center text-center"
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium uppercase tracking-[0.24em] text-slate-600 shadow-sm">
                 <Globe className="h-3.5 w-3.5" />
@@ -331,6 +375,24 @@ export function ComingSoonPage() {
               <form
                 id="early-access"
                 className="mx-auto mt-8 flex w-full max-w-2xl flex-col gap-3 rounded-[1.6rem] border border-slate-200 bg-white p-3 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:flex-row"
+                onSubmit={async e => {
+                  e.preventDefault();
+                  const phoneEl = e.currentTarget.elements.namedItem("whatsapp") as HTMLInputElement;
+                  if (!phoneEl?.value) return;
+                  const btn = e.currentTarget.querySelector("button");
+                  try {
+                    if (btn) btn.innerHTML = "Joining...";
+                    await fetch("/api/early-access", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ phone: heroCountry.dial + " " + phoneEl.value })
+                    });
+                    if (btn) { btn.innerHTML = "Joined!"; btn.disabled = true; }
+                  } catch (err) {
+                    console.error("Failed to save:", err);
+                    if (btn) btn.innerHTML = "Try Again";
+                  }
+                }}
               >
                 {/* Country selector */}
                 <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 px-3">
@@ -378,10 +440,10 @@ export function ComingSoonPage() {
             </div>
           </div>
 
-          <div className="absolute inset-0 z-10 flex items-center justify-center px-5 pb-8 pt-36 sm:px-6 sm:pb-10 sm:pt-40 lg:px-8 lg:pb-12 lg:pt-44">
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-5 pb-8 pt-36 sm:px-6 sm:pb-10 sm:pt-40 lg:px-8 lg:pb-12 lg:pt-44">
             <div
               ref={workflowStageRef}
-              className="mx-auto flex max-h-full w-full max-w-5xl flex-col items-center justify-center text-center"
+              className="pointer-events-auto mx-auto flex max-h-full w-full max-w-5xl flex-col items-center justify-center text-center"
             >
               <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium uppercase tracking-[0.24em] text-slate-600 shadow-sm">
                 <Globe className="h-3.5 w-3.5" />
@@ -492,7 +554,7 @@ export function ComingSoonPage() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
             viewport={{ once: true, amount: 0.3 }}
-            className="relative flex flex-col items-start text-left rounded-[2rem] border border-slate-200 bg-slate-950 px-8 py-10 shadow-[0_32px_80px_rgba(15,23,42,0.14)]"
+            className="relative flex flex-col items-start text-left rounded-[2rem] border border-slate-200 bg-slate-950 px-8 py-10 shadow-[0_32px_80px_rgba(15,23,42,0.14)] overflow-hidden"
           >
             {/* glow inside card */}
             <div className="pointer-events-none absolute left-[-10%] top-[-20%] h-[20rem] w-[20rem] rounded-full bg-brand/25 blur-[90px]" />
@@ -537,6 +599,27 @@ export function ComingSoonPage() {
                 transition={{ duration: 0.5, ease: "easeOut", delay: 0.36 }}
                 viewport={{ once: true, amount: 0.3 }}
                 className="mt-7 flex w-full flex-col gap-3"
+                onSubmit={async e => {
+                  e.preventDefault();
+                  const phoneEl = e.currentTarget.elements.namedItem("whatsapp-bottom") as HTMLInputElement;
+                  if (!phoneEl?.value) return;
+                  const btn = e.currentTarget.querySelector("button");
+                  try {
+                    if (btn) btn.innerHTML = "Joining...";
+                    await fetch("/api/early-access", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ phone: ctaCountry.dial + " " + phoneEl.value })
+                    });
+                    if (btn) {
+                      btn.innerHTML = "Joined! <svg class='h-4 w-4 ml-2' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='20 6 9 17 4 12'></polyline></svg>";
+                      btn.disabled = true;
+                    }
+                  } catch (err) {
+                    console.error("Failed to save:", err);
+                    if (btn) btn.innerHTML = "Try Again";
+                  }
+                }}
               >
                 {/* Country + Phone row */}
                 <div className="flex gap-2">
@@ -590,8 +673,8 @@ export function ComingSoonPage() {
 
       {/* Made in India + Footer — unified */}
       <section className="relative overflow-hidden border-t border-slate-200 bg-[linear-gradient(180deg,rgba(255,153,51,0.10)_0%,rgba(255,255,255,1)_50%,rgba(19,136,8,0.10)_100%)] px-5 pt-16 sm:px-6 lg:px-8 lg:pt-24">
-        <div className="absolute inset-x-0 top-0 h-16 bg-[#ff9933]/15" />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-[#138808]/10" />
+        {/* <div className="absolute inset-x-0 top-0 h-16 bg-[#ff9933]/15" /> */}
+        {/* <div className="absolute inset-x-0 bottom-0 h-20 bg-[#138808]/10" /> */}
 
         {/* Main content */}
         <div className="relative mx-auto flex max-w-6xl flex-col items-center text-center pb-14">
