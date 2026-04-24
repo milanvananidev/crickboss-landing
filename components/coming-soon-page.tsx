@@ -348,7 +348,7 @@ export function ComingSoonPage() {
             </div>
           </div>
 
-          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center px-5 sm:px-6 lg:px-8">
+          <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-5 pt-[88px] pb-6 sm:flex-row sm:pt-0 sm:pb-0 sm:px-6 lg:px-8">
             <div
               ref={heroStageRef}
               className="pointer-events-auto mx-auto flex w-full max-w-4xl flex-col items-center text-center"
@@ -358,22 +358,22 @@ export function ComingSoonPage() {
                 crickboss.in
               </div>
 
-              <p className="mt-6 text-sm font-medium uppercase tracking-[0.28em] text-accent sm:text-base">
+              <p className="mt-4 sm:mt-6 text-xs sm:text-sm font-medium uppercase tracking-[0.28em] text-accent sm:text-base">
                 Where Cricket Never Stops.
               </p>
 
-              <h1 className="mx-auto mt-5 max-w-4xl text-[clamp(2.9rem,7vw,5.2rem)] font-semibold leading-[0.94] tracking-tight text-slate-950">
+              <h1 className="mx-auto mt-4 sm:mt-5 max-w-4xl text-[clamp(2.5rem,7vw,5.2rem)] font-semibold leading-[1.05] sm:leading-[0.94] tracking-tight text-slate-950">
                 The smartest way to score cricket matches.
               </h1>
 
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+              <p className="mx-auto mt-4 sm:mt-5 max-w-2xl text-sm sm:text-base leading-6 sm:leading-7 text-slate-600 sm:text-lg">
                 Built for players, captains, scorers, and local leagues who want faster scoring,
                 cleaner stats, and a more professional match-day workflow.
               </p>
 
               <form
                 id="early-access"
-                className="mx-auto mt-8 flex w-full max-w-2xl flex-col gap-3 rounded-[1.6rem] border border-slate-200 bg-white p-3 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:flex-row"
+                className="mx-auto mt-6 sm:mt-8 flex w-full max-w-2xl flex-col gap-2 sm:gap-3 rounded-[1.2rem] sm:rounded-[1.6rem] border border-slate-200 bg-white p-2.5 sm:p-3 shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:flex-row"
                 onSubmit={async e => {
                   e.preventDefault();
                   const phoneEl = e.currentTarget.elements.namedItem("whatsapp") as HTMLInputElement;
