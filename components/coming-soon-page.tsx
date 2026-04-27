@@ -30,25 +30,80 @@ const workflowSteps = [
     index: "01",
     title: "Create match",
     description: "Choose format, overs, and match details to open the scoring flow.",
-    icon: Trophy
+    icon: Trophy,
+    visual: (
+      <div className="flex flex-col gap-2 rounded-xl bg-slate-50 p-4 shadow-inner ring-1 ring-slate-200">
+        <div className="h-2 w-1/3 rounded-full bg-slate-300/60"></div>
+        <div className="mt-1 flex justify-between gap-2">
+          <div className="flex h-8 flex-1 items-center justify-center rounded-lg border border-slate-100 bg-white shadow-sm">
+            <span className="text-[10px] font-bold text-slate-400">T20</span>
+          </div>
+          <div className="flex h-8 flex-1 items-center justify-center rounded-lg border border-slate-100 bg-white shadow-sm">
+            <span className="text-[10px] font-bold text-slate-400">10 OVERS</span>
+          </div>
+        </div>
+        <div className="mt-1 h-2 w-full rounded-full bg-brand/30"></div>
+      </div>
+    )
   },
   {
     index: "02",
     title: "Create team",
     description: "Set up both teams with clean match-ready structure.",
-    icon: Shield
+    icon: Shield,
+    visual: (
+      <div className="flex flex-col gap-3 rounded-xl bg-slate-50 p-4 shadow-inner ring-1 ring-slate-200">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-2">
+          <div className="h-2 w-8 rounded-full bg-slate-300"></div>
+          <div className="text-[8px] font-bold text-slate-400">VS</div>
+          <div className="h-2 w-8 rounded-full bg-slate-300"></div>
+        </div>
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 3 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <div className="h-5 w-5 rounded-full bg-brand/10"></div>
+              <div className="h-1.5 flex-1 rounded-full bg-slate-200"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   },
   {
     index: "03",
     title: "Start scoring",
     description: "Track every ball, run, wicket, and extra from one fast screen.",
-    icon: Activity
+    icon: Activity,
+    visual: (
+      <div className="flex flex-col gap-2 rounded-xl bg-slate-50 p-4 shadow-inner ring-1 ring-slate-200">
+        <div className="flex items-baseline justify-center gap-2">
+          <span className="text-2xl font-bold tracking-tighter text-slate-900">124<span className="text-slate-400">/3</span></span>
+          <span className="text-[10px] font-semibold text-slate-400">(14.2)</span>
+        </div>
+        <div className="mt-2 flex gap-1">
+          {["0", "1", "W", "4", "4", "6"].map((ball, i) => (
+            <div key={i} className={`flex h-6 flex-1 items-center justify-center rounded text-[10px] font-bold ${ball === 'W' ? 'bg-red-100 text-red-600' : ball === '4' || ball === '6' ? 'bg-brand/10 text-brand' : 'border border-slate-200 bg-white text-slate-600'}`}>
+              {ball}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
   },
   {
     index: "04",
     title: "Publish live",
     description: "Generate the scoreboard, live ticker, and updated player records automatically.",
-    icon: Radio
+    icon: Radio,
+    visual: (
+      <div className="relative flex flex-col items-center justify-center gap-2 overflow-hidden rounded-xl bg-slate-900 p-6 shadow-inner ring-1 ring-slate-800">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(37,211,102,0.15),transparent_60%)]"></div>
+        <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366]/20">
+          <div className="h-4 w-4 animate-pulse rounded-full bg-[#25D366]"></div>
+        </div>
+        <span className="relative mt-2 text-[10px] font-bold tracking-widest text-[#25D366]">LIVE BROADCAST</span>
+      </div>
+    )
   }
 ];
 
@@ -415,48 +470,85 @@ export function ComingSoonPage() {
           </p>
         </section>
 
-        {/* Workflow Section (Static Grid) */}
-        <section className="mx-auto w-full max-w-7xl px-5 py-20 sm:px-6 lg:px-8">
+        {/* Workflow Section (Timeline) */}
+        <section className="mx-auto w-full max-w-5xl px-5 py-20 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium uppercase tracking-[0.24em] text-slate-600 shadow-sm">
               <Globe className="h-3.5 w-3.5" />
-              How It Works
+              Process
             </div>
             <h2 className="mt-5 max-w-2xl text-[clamp(1.8rem,3.8vw,3rem)] font-semibold leading-[1] tracking-tight text-slate-950">
               One connected match flow from setup to live updates.
             </h2>
           </div>
 
-          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {workflowSteps.map((step, index) => (
-              <motion.div
-                key={step.index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true, amount: 0.2 }}
-                className="w-full"
-              >
-                <motion.div
-                  animate={{ y: [0, -8, 0] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 }}
-                  className="flex h-full flex-col rounded-[24px] border border-slate-200 bg-white px-6 py-8 shadow-[0_8px_30px_rgba(15,23,42,0.04)] transition hover:shadow-[0_24px_80px_rgba(15,23,42,0.08)]"
-                >
-                  <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/5 text-brand shadow-sm">
-                    <step.icon className="h-7 w-7" />
-                  </div>
-                  <div className="text-xs font-medium uppercase tracking-[0.24em] text-brand">
-                    Step {step.index}
-                  </div>
-                  <h3 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">
-                    {step.title}
-                  </h3>
-                  <p className="mt-3 text-base leading-6 text-slate-600">
-                    {step.description}
-                  </p>
-                </motion.div>
-              </motion.div>
-            ))}
+          <div className="relative mt-16 sm:mt-24">
+            {/* The vertical connecting line */}
+            <div className="absolute bottom-10 left-6 top-10 w-[2px] bg-slate-200 lg:left-1/2 lg:-ml-[1px]"></div>
+
+            <div className="flex flex-col gap-12 lg:gap-0">
+              {workflowSteps.map((step, index) => {
+                const isEven = index % 2 === 0;
+                return (
+                  <motion.div
+                    key={step.index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    className={`relative flex flex-col lg:flex-row items-start lg:items-center w-full ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}
+                  >
+                    {/* Timeline Node */}
+                    <div className="absolute left-6 flex h-8 w-8 -translate-x-1/2 items-center justify-center lg:left-1/2 mt-[28px] lg:mt-0 z-10">
+                      <div className="relative flex h-full w-full items-center justify-center">
+                        <div className="absolute h-full w-full animate-ping rounded-full bg-brand/25 opacity-75"></div>
+                        <div className="relative h-4 w-4 rounded-full border-[3px] border-white bg-brand shadow-sm"></div>
+                      </div>
+                    </div>
+
+                    {/* Empty spacer for alternating sides on desktop */}
+                    <div className="hidden lg:block lg:w-1/2"></div>
+                    
+                    {/* Card Container */}
+                    <div className={`w-full pl-16 lg:w-1/2 lg:py-8 ${isEven ? 'lg:pl-0 lg:pr-16' : 'lg:pl-16 lg:pr-0'}`}>
+                      <motion.div
+                        animate={{ y: [0, -6, 0] }}
+                        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 }}
+                        className="relative flex w-full flex-col overflow-hidden rounded-[28px] border border-slate-200 bg-white/80 p-6 shadow-[0_8px_30px_rgba(15,23,42,0.04)] ring-1 ring-slate-100 backdrop-blur-sm transition hover:shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:p-8"
+                      >
+                        {/* Background Watermark Numeral */}
+                        <div className="pointer-events-none absolute -right-2 -top-8 select-none text-[8rem] font-bold leading-none tracking-tighter text-slate-100/60 sm:-right-4 sm:-top-8 sm:text-[10rem]">
+                          {step.index}
+                        </div>
+
+                        <div className="relative z-10 w-full">
+                          <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/5 text-brand shadow-sm">
+                            <step.icon className="h-7 w-7" />
+                          </div>
+                          
+                          <div className="text-xs font-medium uppercase tracking-[0.24em] text-brand">
+                            Step {step.index}
+                          </div>
+                          
+                          <h3 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950 sm:text-3xl">
+                            {step.title}
+                          </h3>
+                          
+                          <p className="mt-3 text-base leading-7 text-slate-600 sm:text-lg">
+                            {step.description}
+                          </p>
+
+                          {/* App UI Visual */}
+                          <div className="mt-8 rounded-2xl bg-white p-1.5 shadow-sm ring-1 ring-slate-200/60 w-full max-w-sm">
+                            {step.visual}
+                          </div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </section>
       </div>
