@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ArrowRight, ChevronDown, Globe, Phone } from "lucide-react";
+import { ArrowRight, ChevronDown, Globe, Phone, Trophy, Shield, Activity, Radio, MapPin } from "lucide-react";
 import { CountdownTimer } from "./countdown-timer";
 import logoHorizontal from "../logos/logo-horizontal-text.png";
 import logoIcon from "../logos/icon-icon.png";
@@ -33,22 +33,26 @@ const workflowSteps = [
   {
     index: "01",
     title: "Create match",
-    description: "Choose format, overs, and match details to open the scoring flow."
+    description: "Choose format, overs, and match details to open the scoring flow.",
+    icon: Trophy
   },
   {
     index: "02",
     title: "Create team",
-    description: "Set up both teams with clean match-ready structure."
+    description: "Set up both teams with clean match-ready structure.",
+    icon: Shield
   },
   {
     index: "03",
     title: "Start scoring",
-    description: "Track every ball, run, wicket, and extra from one fast screen."
+    description: "Track every ball, run, wicket, and extra from one fast screen.",
+    icon: Activity
   },
   {
     index: "04",
     title: "Publish live",
-    description: "Generate the scoreboard, live ticker, and updated player records automatically."
+    description: "Generate the scoreboard, live ticker, and updated player records automatically.",
+    icon: Radio
   }
 ];
 
@@ -186,9 +190,79 @@ function AmbientBackground() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(26,35,126,0.10),transparent_26%),linear-gradient(180deg,#fbfdff_0%,#ffffff_46%,#f3f6fb_100%)]" />
+      
+      {/* Cricket Ground Vector Accents */}
+      <svg className="absolute inset-x-0 bottom-0 h-[60vh] w-full text-brand/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" preserveAspectRatio="none" viewBox="0 0 1000 400" fill="none">
+        {/* 30 yard circle approximation */}
+        <ellipse cx="500" cy="400" rx="400" ry="250" stroke="currentColor" strokeWidth="2" strokeDasharray="8 8" />
+        {/* Boundary rope */}
+        <ellipse cx="500" cy="400" rx="700" ry="380" stroke="currentColor" strokeWidth="4" />
+        <ellipse cx="500" cy="400" rx="720" ry="395" stroke="currentColor" strokeWidth="1" opacity="0.5" />
+      </svg>
+
       <div className="absolute left-[-8%] top-[10%] h-[22rem] w-[22rem] rounded-full bg-brand/10 blur-3xl" />
       <div className="absolute right-[-8%] top-[20%] h-[18rem] w-[18rem] rounded-full bg-accent/10 blur-3xl" />
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.06)_1px,transparent_1px)] bg-[size:42px_42px] [mask-image:radial-gradient(circle_at_center,white,transparent_84%)]" />
+    </div>
+  );
+}
+
+function FloatingCricketElements() {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+      {/* Floating Action Chips */}
+      <motion.div 
+        animate={{ y: [0, -15, 0], opacity: [0.7, 1, 0.7] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-[10%] top-[25%] hidden rounded-full border border-red-200 bg-red-50/80 px-3 py-1 font-mono text-xs font-bold text-red-600 backdrop-blur-sm sm:block shadow-sm"
+      >
+        WICKET!
+      </motion.div>
+      <motion.div 
+        animate={{ y: [0, 20, 0], opacity: [0.6, 0.9, 0.6] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute right-[12%] top-[30%] hidden rounded-full border border-[var(--crickboss-accent)] bg-[var(--crickboss-accent)]/10 px-3 py-1 font-mono text-xs font-bold text-[var(--crickboss-accent)] backdrop-blur-sm sm:block shadow-sm"
+      >
+        SIX RUNS
+      </motion.div>
+      <motion.div 
+        animate={{ y: [0, -10, 0], opacity: [0.5, 0.8, 0.5] }}
+        transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute left-[18%] bottom-[35%] hidden rounded-full border border-brand/20 bg-brand/5 px-3 py-1 font-mono text-xs font-bold text-brand backdrop-blur-sm sm:block shadow-sm"
+      >
+        CRR: 9.4
+      </motion.div>
+
+      {/* Mock Scoreboard Card */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
+        animate={{ opacity: 1, scale: 1, rotate: -2, y: [0, -8, 0] }}
+        transition={{
+          y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+          opacity: { duration: 1 },
+          scale: { duration: 1 }
+        }}
+        className="absolute right-[-2%] top-[55%] hidden w-64 rounded-2xl border border-white/60 bg-white/70 p-4 shadow-xl backdrop-blur-md sm:block xl:right-[5%]"
+      >
+        <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+          <span>Innings 1</span>
+          <span className="flex items-center gap-1.5 text-red-500"><span className="h-1.5 w-1.5 rounded-full bg-red-500 animate-pulse"></span>LIVE</span>
+        </div>
+        <div className="mt-2.5 flex items-baseline gap-2">
+          <span className="text-3xl font-bold tracking-tighter text-slate-900">184<span className="text-xl text-slate-400">/4</span></span>
+          <span className="text-sm font-semibold text-slate-500">(18.2 OV)</span>
+        </div>
+        <div className="mt-3.5 flex flex-col gap-2 border-t border-slate-200/60 pt-3">
+          <div className="flex justify-between text-sm text-slate-800">
+            <span className="font-medium">Virat K. *</span>
+            <span className="font-bold">64 <span className="text-xs font-normal text-slate-400">(42)</span></span>
+          </div>
+          <div className="flex justify-between text-sm text-slate-800">
+            <span className="font-medium">Hardik P.</span>
+            <span className="font-bold">28 <span className="text-xs font-normal text-slate-400">(14)</span></span>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -349,6 +423,7 @@ export function ComingSoonPage() {
           </div>
 
           <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-5 pt-[88px] pb-6 sm:flex-row sm:pt-0 sm:pb-0 sm:px-6 lg:px-8">
+            <FloatingCricketElements />
             <div
               ref={heroStageRef}
               className="pointer-events-auto mx-auto flex w-full max-w-4xl flex-col items-center text-center"
@@ -460,6 +535,9 @@ export function ComingSoonPage() {
                     className={`workflow-step workflow-step-${itemIndex + 1} absolute inset-0 flex items-center justify-center`}
                   >
                     <div className="w-full max-w-[620px] rounded-[28px] border border-slate-200 bg-white px-6 py-8 text-center shadow-[0_24px_80px_rgba(15,23,42,0.08)] sm:px-8 sm:py-10">
+                      <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/5 text-brand shadow-sm">
+                        <step.icon className="h-8 w-8" />
+                      </div>
                       <div className="text-xs font-medium uppercase tracking-[0.24em] text-brand">
                         Step {step.index}
                       </div>
@@ -478,8 +556,9 @@ export function ComingSoonPage() {
                 {workflowSteps.map((step, index) => (
                   <div
                     key={step.title}
-                    className={`workflow-step-label workflow-step-label-${index + 1}`}
+                    className={`workflow-step-label workflow-step-label-${index + 1} flex items-center gap-1.5`}
                   >
+                    <span className="h-1.5 w-1.5 rounded-full bg-brand/40"></span>
                     {step.title}
                   </div>
                 ))}
