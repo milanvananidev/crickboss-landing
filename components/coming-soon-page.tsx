@@ -471,7 +471,16 @@ export function ComingSoonPage() {
         </section>
 
         {/* Workflow Section (Timeline) */}
-        <section className="mx-auto w-full max-w-5xl px-5 py-20 sm:px-6 lg:px-8">
+        <section className="relative w-full py-24 sm:py-32 overflow-hidden">
+          {/* Background Ambient Effects to fill white space */}
+          <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
+            <div className="absolute left-[-10%] top-[15%] h-[40rem] w-[40rem] rounded-full bg-brand/5 blur-[100px]" />
+            <div className="absolute right-[-10%] bottom-[25%] h-[35rem] w-[35rem] rounded-full bg-accent/5 blur-[100px]" />
+            <div className="absolute left-[30%] top-[60%] h-[20rem] w-[20rem] rounded-full bg-blue-500/5 blur-[80px]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.05)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]" />
+          </div>
+
+          <div className="relative z-10 mx-auto w-full max-w-5xl px-5 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center text-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium uppercase tracking-[0.24em] text-slate-600 shadow-sm">
               <Globe className="h-3.5 w-3.5" />
@@ -549,6 +558,7 @@ export function ComingSoonPage() {
                 );
               })}
             </div>
+          </div>
           </div>
         </section>
       </div>
