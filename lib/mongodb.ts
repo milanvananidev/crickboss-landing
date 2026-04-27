@@ -18,6 +18,7 @@ if (!cached) {
 }
 
 async function connectToDatabase() {
+
   if (cached.conn) {
     return cached.conn;
   }
