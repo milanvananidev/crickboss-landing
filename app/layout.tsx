@@ -21,7 +21,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "CrickBoss Scoring App Preview - Get Live Scores, Stats & Analysis",
+        alt: "CrickBoss - The Smartest Way to Score Cricket matches and manage leagues.",
       },
     ],
     locale: "en_IN",
