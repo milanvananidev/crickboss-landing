@@ -16,7 +16,7 @@ export function HeroSection({ onOpenModal }: HeroSectionProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-slate-200/50 bg-white/70 backdrop-blur-md supports-[backdrop-filter]:bg-white/50">
+      <header className="hidden sm:block sticky top-0 z-50 w-full border-b border-slate-200/50 bg-white/70 backdrop-blur-md supports-[backdrop-filter]:bg-white/50">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6 lg:px-8 h-[90px]">
           <Image src={logoHorizontal} alt="CrickBoss logo" className="h-auto w-[136px] sm:w-[164px]" />
           <button
