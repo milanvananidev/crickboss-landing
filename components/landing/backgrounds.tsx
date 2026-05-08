@@ -25,32 +25,32 @@ export function AmbientBackground() {
 
 export function FloatingCricketElements() {
   return (
-    <div className="pointer-events-none absolute inset-0 z-20 overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 z-20 overflow-visible">
       {/* Floating Action Chips */}
       <motion.div 
         animate={{ y: [0, -15, 0], opacity: [0.7, 1, 0.7] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute left-[10%] top-[25%] hidden rounded-full border border-red-200 bg-red-50/80 px-3 py-1 font-mono text-xs font-bold text-red-600 backdrop-blur-sm sm:block shadow-sm"
+        className="absolute left-[8%] top-[24%] hidden rounded-full border border-red-200 bg-red-50/80 px-3 py-1 font-mono text-xs font-bold text-red-600 backdrop-blur-sm sm:block shadow-sm xl:left-[10%]"
       >
         WICKET!
       </motion.div>
       <motion.div 
         animate={{ y: [0, 20, 0], opacity: [0.6, 0.9, 0.6] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute right-[12%] top-[30%] hidden rounded-full border border-[var(--crickboss-accent)] bg-[var(--crickboss-accent)]/10 px-3 py-1 font-mono text-xs font-bold text-[var(--crickboss-accent)] backdrop-blur-sm sm:block shadow-sm"
+        className="absolute right-[8%] top-[30%] hidden rounded-full border border-accent/20 bg-accent/10 px-3 py-1 font-mono text-xs font-bold text-accent backdrop-blur-sm sm:block shadow-sm xl:right-[12%]"
       >
         SIX RUNS
       </motion.div>
       <motion.div 
         animate={{ y: [0, -10, 0], opacity: [0.5, 0.8, 0.5] }}
         transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute left-[18%] bottom-[35%] hidden rounded-full border border-brand/20 bg-brand/5 px-3 py-1 font-mono text-xs font-bold text-brand backdrop-blur-sm sm:block shadow-sm"
+        className="absolute left-[12%] top-[62%] hidden rounded-full border border-brand/20 bg-brand/5 px-3 py-1 font-mono text-xs font-bold text-brand backdrop-blur-sm sm:block shadow-sm xl:left-[18%]"
       >
         CRR: 9.4
       </motion.div>
 
       {/* Mock Scoreboard Card */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
         animate={{ opacity: 1, scale: 1, rotate: -2, y: [0, -8, 0] }}
         transition={{
@@ -58,7 +58,8 @@ export function FloatingCricketElements() {
           opacity: { duration: 1 },
           scale: { duration: 1 }
         }}
-        className="absolute right-[-2%] top-[55%] hidden w-64 rounded-2xl border border-white/60 bg-white/70 p-4 shadow-xl backdrop-blur-md sm:block xl:right-[5%]"
+        style={{}}
+        className="absolute right-[2rem] top-[56%] hidden w-60 rounded-2xl border border-white/60 bg-white/75 p-4 shadow-xl backdrop-blur-md sm:block lg:right-[3rem] xl:right-[4.5rem] 2xl:right-[7rem]"
       >
         <div className="flex items-center justify-between text-[10px] font-bold text-slate-500 uppercase tracking-widest">
           <span>Innings 1</span>
@@ -78,7 +79,7 @@ export function FloatingCricketElements() {
             <span className="font-bold">28 <span className="text-xs font-normal text-slate-400">(14)</span></span>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
     </div>
   );
 }

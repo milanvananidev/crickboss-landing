@@ -11,7 +11,6 @@ import { AmbientBackground, FloatingCricketElements } from "./landing/background
 import { EarlyAccessModal } from "./landing/early-access-modal";
 import { HeroSection } from "./landing/hero-section";
 import { TimelineSection } from "./landing/timeline-section";
-import { CtaSection } from "./landing/cta-section";
 import { FooterSection } from "./landing/footer-section";
 
 export function ComingSoonPage() {
@@ -58,7 +57,7 @@ export function ComingSoonPage() {
       {isModalOpen && <EarlyAccessModal onClose={() => setIsModalOpen(false)} />}
 
       {/* Background visuals layer */}
-      <div className="absolute inset-x-0 top-0 h-[100dvh] pointer-events-none z-0">
+      <div className="absolute inset-x-0 top-0 h-[135dvh] pointer-events-none z-0 overflow-visible">
         <AmbientBackground />
         <FloatingCricketElements />
       </div>
@@ -66,7 +65,6 @@ export function ComingSoonPage() {
       <div className="relative z-10 flex flex-col">
         <HeroSection onOpenModal={() => setIsModalOpen(true)} />
         <TimelineSection />
-        <CtaSection />
         <FooterSection />
       </div>
     </main>
